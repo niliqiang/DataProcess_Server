@@ -6,6 +6,8 @@ import com.dataprocess_server.service.DataInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @ClassName: DataInfoServiceImpl
  * @Author: niliqiang
@@ -20,5 +22,10 @@ public class DataInfoServiceImpl implements DataInfoService {
     @Override
     public int dataStore(DataInfo dataInfo){
         return this.dataInfoMapper.insert(dataInfo);
+    }
+
+    @Override
+    public List<DataInfo> getDataList() {
+        return this.dataInfoMapper.selectAll();
     }
 }

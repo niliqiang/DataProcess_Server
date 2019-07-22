@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @ClassName: DataInfoController
@@ -17,16 +18,25 @@ import javax.servlet.http.HttpServletRequest;
  * @Description: TODO
  */
 @RestController
-@RequestMapping("/data")
+@RequestMapping("/dataInfo")
 public class DataInfoController {
     @Autowired
     private DataInfoService dataInfoService;
 
+    /**
+     * 接口测试
+     * @return
+     */
     @RequestMapping("")
     public String interfaceTest() {
         return "Hello World! & Interface Test Success!";
     }
 
+    /**
+     * 数据存储（插入）
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/store", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public Object dataStore(HttpServletRequest request) {
         JSONObject result = new JSONObject();
@@ -44,6 +54,11 @@ public class DataInfoController {
             result.put("status", 500);
         }
         return result;
+    }
+
+    @RequestMapping(value = "getList")
+    public List<DataInfo> getDataList() {
+        return dataInfoService.getDataList();
     }
 
 }
