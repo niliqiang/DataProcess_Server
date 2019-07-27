@@ -1,5 +1,7 @@
 package com.dataprocess_server.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dataprocess_server.entity.DataInfo;
 import com.dataprocess_server.service.DataInfoService;
@@ -57,6 +59,9 @@ public class DataInfoController {
     }
 
     @RequestMapping(value = "getList")
+//    public JSONArray getDataList() {
+//        return JSONArray.parseArray(JSON.toJSONString(dataInfoService.getDataList()));
+
     public List<DataInfo> getDataList() {
         return dataInfoService.getDataList();
     }

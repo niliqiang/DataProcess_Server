@@ -12,94 +12,102 @@
 <body>
 
     <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-    <div id="main" style="width: 600px;height:400px;position: absolute; top:50%; left: 50%; margin-top: -200px;margin-left: -300px"></div>
+    <div id="main" style="width: 1200px; height:800px; position: absolute; transform: translate(-50%, -50%); left: 50%; top: 50%;"></div>
     <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
-
-       // $.get('/dataInfo/getList', function (data) {
-            myChart.setOption(option = {
-                title: {
-                    text: 'AQI 监测'
-                },
-                tooltip: {
-                    trigger: 'axis'
-                },
-                xAxis: {
-                    data: [1,2,3,4,5,6,7,8]
-                },
-                yAxis: {
-                    splitLine: {
-                        show: false
-                    }
-                },
-                toolbox: {
-                    left: 'center',
-                    feature: {
-                        dataZoom: {
-                            yAxisIndex: 'none'
-                        },
-                        restore: {},
-                        saveAsImage: {}
-                    }
-                },
-                dataZoom: [{
-                    startValue: '2014-06-01'
-                }, {
-                    type: 'inside'  //支持鼠标滚动缩放
-                }],
-                visualMap: {
-                    top: 10,
-                    right: 10,
-                    pieces: [{
-                        gt: 0,
-                        lte: 50,
-                        color: '#096'
-                    }, {
-                        gt: 50,
-                        lte: 100,
-                        color: '#ffde33'
-                    }, {
-                        gt: 100,
-                        lte: 150,
-                        color: '#ff9933'
-                    }, {
-                        gt: 150,
-                        lte: 200,
-                        color: '#cc0033'
-                    }, {
-                        gt: 200,
-                        lte: 300,
-                        color: '#660099'
-                    }, {
-                        gt: 300,
-                        color: '#7e0023'
-                    }],
-                    outOfRange: {
-                        color: '#999'
-                    }
-                },
-                series: {
-                    name: 'Beijing AQI',
-                    type: 'line',
-                    data: [1,2,3,4,5,6,7,100],
-                    markLine: {
-                        silent: true,
-                        data: [{
-                            yAxis: 50
-                        }, {
-                            yAxis: 100
-                        }, {
-                            yAxis: 150
-                        }, {
-                            yAxis: 200
-                        }, {
-                            yAxis: 300
-                        }]
-                    }
+        // 初始化两个数组，盛装从数据库中获取到的数据
+        var clientTime = [], airPara = [];
+        var option = {
+            title: {
+                text: 'AQI 监测'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                data: clientTime
+            },
+            yAxis: {
+                splitLine: {
+                    show: false
                 }
-            });
-        //});
+            },
+            toolbox: {
+                left: 'center',
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            dataZoom: [{
+                type: 'inside'  //支持鼠标滚动缩放
+            }],
+            visualMap: {
+                top: 10,
+                right: 10,
+                pieces: [{
+                    gt: 0,
+                    lte: 50,
+                    color: '#096'
+                }, {
+                    gt: 50,
+                    lte: 100,
+                    color: '#ffde33'
+                }, {
+                    gt: 100,
+                    lte: 150,
+                    color: '#ff9933'
+                }, {
+                    gt: 150,
+                    lte: 200,
+                    color: '#cc0033'
+                }, {
+                    gt: 200,
+                    lte: 300,
+                    color: '#660099'
+                }, {
+                    gt: 300,
+                    color: '#7e0023'
+                }],
+                outOfRange: {
+                    color: '#999'
+                }
+            },
+            series: {
+                name: 'Beijing AQI',
+                type: 'line',
+                data: airPara,
+                markLine: {
+                    silent: true,
+                    data: [{
+                        yAxis: 50
+                    }, {
+                        yAxis: 100
+                    }, {
+                        yAxis: 150
+                    }, {
+                        yAxis: 200
+                    }, {
+                        yAxis: 300
+                    }]
+                }
+            }
+        };
+
+        $.get('/dataInfo/getList', function (data) {
+            if (data) {
+                for (var i = 0; i < data.length; i++) {
+                    clientTime.push(data[i].clientTime);
+                    airPara.push(data[i].airPara);
+                }
+                myChart.setOption(option);
+            }
+        });
+
     </script>
 </body>
 </html>
