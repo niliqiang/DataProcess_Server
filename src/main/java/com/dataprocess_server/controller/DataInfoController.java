@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * @ClassName: DataInfoController
@@ -43,8 +45,9 @@ public class DataInfoController {
     public Object dataStore(HttpServletRequest request) {
         JSONObject result = new JSONObject();
         DataInfo dataInfo = new DataInfo();
+        Timestamp timestamp = new Timestamp(Long.valueOf(request.getParameter("clientTime")));
+        dataInfo.setClientTime(timestamp);
         dataInfo.setClientId(Integer.valueOf(request.getParameter("clientId")));
-        dataInfo.setClientTime(Long.valueOf(request.getParameter("clientTime")));
         dataInfo.setAirPara(Integer.valueOf(request.getParameter("airPara")));
         int index = dataInfoService.dataStore(dataInfo);
         if (index > 0) {

@@ -8,7 +8,7 @@
     -->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="client_id" jdbcType="INTEGER" property="clientId" />
-    <result column="client_time" jdbcType="BIGINT" property="clientTime" />
+    <result column="client_time" jdbcType="TIMESTAMP" property="clientTime" />
     <result column="air_para" jdbcType="INTEGER" property="airPara" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -29,7 +29,7 @@
     </selectKey>
     insert into innovation.data_info (client_id, client_time, air_para
       )
-    values (#{clientId,jdbcType=INTEGER}, #{clientTime,jdbcType=BIGINT}, #{airPara,jdbcType=INTEGER}
+    values (#{clientId,jdbcType=INTEGER}, #{clientTime,jdbcType=TIMESTAMP}, #{airPara,jdbcType=INTEGER}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.dataprocess_server.entity.DataInfo">
@@ -39,7 +39,7 @@
     -->
     update innovation.data_info
     set client_id = #{clientId,jdbcType=INTEGER},
-      client_time = #{clientTime,jdbcType=BIGINT},
+      client_time = #{clientTime,jdbcType=TIMESTAMP},
       air_para = #{airPara,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

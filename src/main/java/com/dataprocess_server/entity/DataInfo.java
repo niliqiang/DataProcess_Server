@@ -1,5 +1,9 @@
 package com.dataprocess_server.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.util.Date;
+
 public class DataInfo {
     /**
      *
@@ -26,7 +30,8 @@ public class DataInfo {
      *
      * @mbg.generated
      */
-    private Long clientTime;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS",timezone="GMT+8")
+    private Date clientTime;
 
     /**
      *
@@ -93,7 +98,7 @@ public class DataInfo {
      *
      * @mbg.generated
      */
-    public Long getClientTime() {
+    public Date getClientTime() {
         return clientTime;
     }
 
@@ -105,7 +110,7 @@ public class DataInfo {
      *
      * @mbg.generated
      */
-    public void setClientTime(Long clientTime) {
+    public void setClientTime(Date clientTime) {
         this.clientTime = clientTime;
     }
 
