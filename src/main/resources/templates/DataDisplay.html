@@ -12,7 +12,7 @@
 <body>
 
     <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-    <div id="main" style="width: 900px; height:600px; position: absolute; transform: translate(-50%, -50%); left: 50%; top: 50%;"></div>
+    <div id="main" style="width: 1200px; height:600px; position: absolute; transform: translate(-50%, -50%); left: 50%; top: 50%;"></div >
     <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
@@ -47,8 +47,8 @@
                 type: 'inside'  //支持鼠标滚动缩放
             }],
             visualMap: {
-                top: 10,
-                right: 10,
+                top: 5,
+                right: -5,
                 pieces: [{
                     gt: 0,
                     lte: 50,
@@ -107,6 +107,52 @@
                 myChart.setOption(option);
             }
         });
+
+        var clientWebSocket;
+        if(typeof(WebSocket) == "undefined") {
+            console.log("您的浏览器不支持WebSocket");
+        }else {
+            console.log("您的浏览器支持WebSocket");
+            clientWebSocket = new WebSocket("ws://localhost:8080/websocket");
+            //打开事件
+            clientWebSocket.onopen = function() {
+                console.log("Socket 已打开");
+            };
+            //获得消息事件
+            clientWebSocket.onmessage = function(msg) {
+                console.log(msg.data);
+                dataUpdate(msg.data);
+                //发现消息进入    开始处理前端触发逻辑
+            };
+            //关闭事件
+            clientWebSocket.onclose = function() {
+                console.log("Socket已关闭");
+            };
+            //发生了错误事件
+            clientWebSocket.onerror = function() {
+                alert("Socket发生了错误");
+                //此时可以尝试刷新页面
+            }
+        };
+
+        function dataUpdate(newData) {
+            // clientTime = [];//清空数组，准备存放新值
+            // airPara = [];
+            var dataArr = newData.split(",");
+            console.log(dataArr);
+            clientTime.shift();
+            airPara.shift();
+            clientTime.push(dataArr[0]);
+            airPara.push(dataArr[1]);
+            myChart.setOption({
+                xAxis: {
+                    data: clientTime
+                },
+                series: [{
+                    data: airPara
+                }]
+            });
+        }
 
     </script>
 </body>
